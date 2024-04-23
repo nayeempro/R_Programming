@@ -1,0 +1,183 @@
+
+
+
+#tidyverse ecosystem [collection of R packages: ggplot2, dplyr, tidyr, stringr, purr]
+
+setwd("E:/Data_analysis_bootcamp/R_programming/Class-R3")
+
+data<- read.csv("World Happiness Index 2018.csv", header = TRUE)
+
+#read data from another directory
+data <- read.csv("E:/Data_analysis_bootcamp/R_programming/Class-R5/part_categories.csv", header = TRUE)
+View(data)
+
+#install.packages("")
+
+library(dplyr)
+library(ggplot2)
+library(vcdExtra)
+library(gapminder)
+library(tidyverse)
+
+
+install.packages("vcdExtra")
+
+
+
+# '%>%' referred as 'pipe' to pass information and connect several steps
+
+# Common 'dplyr' verbs: select, filter, arrange, summarize, group_by, mutate, rename,
+# transmute: select+mutate
+# rename inside select is possible
+# Functions:
+# slice (5:10), slice_sample(n= ), slice_sample(prop= ), slice_max(variable, n=), slice_min(variable, n=) 
+# select(starts_with(")), select(ends_with(")), select(contains_with("))
+# count(categorical_variable, sort = T), count(categorical_variable, wt= another_con_variable, sort = T)
+# ungroup()
+# variable %in% c("", "") for filtering; !variable %in% in c("", "")
+
+#Window Function: lag()
+
+
+#To view list of data sets available in a particular package or a group of packages.
+vcdExtra::datasets(c("dplyr", "ggplot2"))
+?storms
+
+happiness_2018 <- read.csv("World Happiness Index 2018.csv", 
+                           header = TRUE)
+
+happiness_2019 <- read.csv("World Happiness Index 2019.csv", 
+                           header = TRUE)
+
+glimpse(happiness_2018)
+str(happiness_2018)
+View(happiness_2019)
+
+
+glimpse(happiness_2019)
+View(happiness_2019)
+
+#mutate for adding new column
+happiness_2018 <- happiness_2018 %>% 
+  mutate(Year = 2018)
+
+happiness_2019 <- happiness_2019 %>% 
+  mutate(Year = 2019)
+
+happiness <- rbind(happiness_2018, happiness_2019)
+
+glimpse(happiness)
+
+colnames(happiness)
+
+#select
+happiness %>% #control+shift+m
+  select(Country.or.region, Score, GDP.per.capita, Freedom.to.make.life.choices) %>% 
+  View()
+
+
+happiness %>% 
+  select(Country.or.region, Score, GDP.per.capita, Healthy.life.expectancy:Generosity) %>% 
+  View()
+
+
+#without Social.support and Overall.rank col
+happiness %>% 
+  select(-c(Social.support, Overall.rank)) %>% 
+  View()
+
+# Rename the column
+happiness %>% 
+  select(Country.or.region, Score, GDP.per.capita, Freedom = Freedom.to.make.life.choices) %>% 
+  View()
+
+
+happiness %>% 
+  select(Year, Country = Country.or.region, Score, GDP_PER_CAPITA = GDP.per.capita, Freedom.to.make.life.choices) %>% 
+  rename(Freedom = Freedom.to.make.life.choices,
+         Happiess_Score = Score) %>% View()
+
+
+#assign the processed data set and rename
+df1 <- happiness %>% 
+  select(Year, Country = Country.or.region, Score, GDP_PER_CAPITA = GDP.per.capita, Freedom.to.make.life.choices) %>% 
+  rename(Freedom = Freedom.to.make.life.choices,
+         Happiess_Score = Score)
+
+colnames(df1)
+
+
+
+#arrange
+df1 %>% 
+  arrange(Happiess_Score) %>% head()
+
+?arrange
+
+df1 %>% 
+  arrange(Year, desc(Happiess_Score)) %>% head()
+
+df1 %>% 
+  group_by(Country) %>% head()
+
+
+library(gapminder)
+head(gapminder)
+
+#filter
+gapminder %>% 
+  filter(year == 2007) %>% 
+  count(continent, sort = TRUE) %>% 
+  ggplot(aes(x= continent, y = n)) +
+  geom_col() +
+  ggtitle("Frequency Distribution of Continent")
+
+View(gapminder)
+
+gapminder %>% 
+  filter(country == "Bangladesh", year == 2007) %>% 
+  View()
+
+
+gapminder %>% 
+  filter(country %in% c("United States", "India", "China")) %>% 
+  ggplot(aes(x= year, y= lifeExp, col = country)) +
+  geom_point()
+
+gapminder %>% 
+  filter(country %in% c("United States", "India", "China")) %>% 
+  ggplot(aes(x= year, y= lifeExp, col = country)) +
+  geom_line()
+
+
+#summarize and group_by
+gapminder %>% 
+  filter(year %in% c(2007, 1952)) %>% 
+  group_by(year) %>% view()
+
+#summarize and group_by
+gapminder %>% 
+  filter(year %in% c(2007, 1952)) %>% 
+  group_by(year) %>% 
+  summarize(mean_life_exp = mean(lifeExp),
+            median_life_exp = median(lifeExp),
+            sd_of_life_exp = sd(lifeExp))
+
+gapminder %>% 
+  group_by(country) %>% 
+  summarize(mean_life_exp = mean(lifeExp, na.rm = TRUE)) %>% View()
+
+
+gapminder %>% 
+  group_by(country) %>% 
+  summarize(mean_life_exp = mean(lifeExp, na.rm = TRUE)) %>% head()
+
+gapminder %>% 
+  group_by(country) %>% 
+  mutate(countrywise_mean_life_exp = mean(lifeExp, na.rm = TRUE),
+         change_in_life_exp = lifeExp - countrywise_mean_life_exp) %>% View()
+
+gapminder %>% 
+  group_by(country) %>% 
+  mutate(countrywise_mean_life_exp = mean(lifeExp, na.rm = TRUE),
+         change_in_life_exp = lifeExp - countrywise_mean_life_exp) %>% View()
