@@ -13,4 +13,5 @@ Let's learn R programming and Build the application
 ## Part_02: Data wrangling with TidyVerse
 - Tidyverse
 - set working directory
+- read csv file
 - Select, filter, arrange , mutate etc
