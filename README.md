@@ -9,3 +9,8 @@ Let's learn R programming and Build the application
 - Matrix
 - Data Frame
 - List
+
+## Part_02: Data wrangling with TidyVerse
+- Tidyverse
+- set working directory
+- Select, filter, arrange , mutate etc
