@@ -1,0 +1,88 @@
+library(dplyr)
+library(ggplot2)
+
+library(gapminder)
+glimpse(gapminder)
+
+ cor(gapminder$gdpPercap, gapminder$lifeExp) #Karl Pearson Correlation Coefficient
+#Only measures the linear relationship between two numeric variables
+
+#0.5837062 [-1<r<+1]
+
+gapminder %>% 
+  ggplot(aes(x= gdpPercap, y= lifeExp))+
+  geom_point()
+
+gapminder %>% 
+  ggplot(aes(x= gdpPercap, y= lifeExp))+
+  geom_point()+
+  scale_x_log10()
+
+cor(log(gapminder$gdpPercap), gapminder$lifeExp) #0.8076179
+
+
+gapminder %>% 
+  filter (year == 2007) %>% 
+  mutate(pop_in_mil = pop/1000000) %>% 
+  ggplot(aes(x= gdpPercap, y= lifeExp, col= continent, size = pop_in_mil)) +
+  geom_point() +
+  scale_x_log10()
+
+gapminder %>% 
+  select(continent, year, lifeExp) %>% 
+  arrange(continent, year) %>% View()
+
+gapminder %>% 
+  #filter (year == 2007) %>% 
+  group_by(continent, year) %>% 
+  summarize(mean_life_exp = mean(lifeExp, na.rm = TRUE)) %>%
+  ggplot(aes(x=year, y=mean_life_exp, col = continent)) +
+  geom_point()
+
+gapminder %>% 
+  #filter (year == 2007) %>% 
+  group_by(continent, year) %>% 
+  summarize(mean_life_exp = mean(lifeExp, na.rm = TRUE)) %>%
+  ggplot(aes(x=year, y=mean_life_exp, col = continent)) +
+  geom_line()
+
+gapminder %>% 
+  #filter (year == 2007) %>% 
+  group_by(continent, year) %>% 
+  summarize(mean_life_exp = mean(lifeExp, na.rm = TRUE)) %>%
+  ggplot(aes(x=year, y=mean_life_exp)) +
+  geom_point() +
+  facet_wrap(~continent)
+
+
+glimpse(mtcars)
+
+View(mtcars)
+
+
+mtcars %>% 
+  ggplot(aes(x= factor(cyl), y= mpg)) +
+  geom_point()
+
+mtcars %>% 
+  ggplot(aes(mpg)) +
+  geom_histogram(bins = 10)+
+  facet_wrap(~cyl)
+
+
+
+
+gapminder %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(gdpPercap, col= continent)) +
+  geom_boxplot()
+
+gapminder %>% 
+  select(gdpPercap) %>% View()
+
+gapminder %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(gdpPercap)) +
+  geom_boxplot() +
+  facet_wrap(~continent)
+
