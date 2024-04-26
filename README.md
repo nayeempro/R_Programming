@@ -17,4 +17,8 @@ Let's learn R programming and Build the application
 - Select, filter, arrange , mutate etc
 
 ## Part_03: ggplot2
-- 
+- garaph (boxplot,histogram,line,bar)
+- filter
+- group by
+- summurize
+  
