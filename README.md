@@ -15,3 +15,6 @@ Let's learn R programming and Build the application
 - set working directory
 - read csv file
 - Select, filter, arrange , mutate etc
+
+## Part_03: ggplot2
+- 
