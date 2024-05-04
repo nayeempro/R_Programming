@@ -1,0 +1,83 @@
+#=========intall R shiny package======
+install.packages("shiny")
+
+library(shiny)
+
+
+
+
+#Define UI
+
+ui_first<- bootstrapPage(
+  numericInput('n','Enter the Number of Observation',100),
+  plotOutput('plot')
+)
+
+#Define server
+server_first <- function(input,output){
+  output$plot <- renderPlot({
+    hist(rnorm(input$n))
+  })
+}
+
+
+#Build your First Shiny app
+shinyApp(ui = ui_first, server = server_first)
+
+
+#========= Faithful UI Creation========
+
+ui_faithful <- bootstrapPage(
+  
+  selectInput(inputId = "n_breaks",
+              label = "Number of bins in histogram (approximate):",
+              choices = c(10, 20, 35, 50),
+              selected = 20),
+  
+  checkboxInput(inputId = "individual_obs",
+                label = strong("Show individual observations"),
+                value = FALSE),
+  
+  checkboxInput(inputId = "density",
+                label = strong("Show density estimate"),
+                value = FALSE),
+  
+  plotOutput(outputId = "main_plot", height = "300px"),
+  
+  # Display this only if the density is shown
+  conditionalPanel(condition = "input.density == true",
+                   sliderInput(inputId = "bw_adjust",
+                               label = "Bandwidth adjustment:",
+                               min = 0.2, max = 2, value = 1, step = 0.2)
+  )
+  
+)
+
+data(faithful)
+
+server_faithful <- function(input, output) {
+  
+  output$main_plot <- renderPlot({
+    
+    hist(faithful$eruptions,
+         probability = TRUE,
+         breaks = as.numeric(input$n_breaks),
+         xlab = "Duration (minutes)",
+         main = "Geyser eruption duration")
+    
+    if (input$individual_obs) {
+      rug(faithful$eruptions)
+    }
+    
+    if (input$density) {
+      dens <- density(faithful$eruptions,
+                      adjust = input$bw_adjust)
+      lines(dens, col = "blue")
+    }
+    
+  })
+}
+
+shinyApp(ui = ui_faithful, server = server_faithful)
+
+
