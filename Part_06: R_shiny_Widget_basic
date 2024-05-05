@@ -1,0 +1,94 @@
+library(shiny)
+library(bslib)
+library(bsicons)
+
+ui<- page_fluid(
+  titlePanel("Basic Widget for title panel"),
+  layout_columns(
+    col_widths = 3,
+    card(
+      card_header("Button_widget"),
+      card_body("main content"),
+      card_footer("card Footer"),
+      actionButton("action","Action label"),
+      submitButton("submit","submit label")
+    ),
+    card(
+      card_header("Single checkbox"),
+      checkboxInput("checkbox", "Choice A", value = TRUE)
+    ),
+    card(
+      card_header("Checkbox group"),
+      checkboxGroupInput(
+        "checkGroup",
+        "Select all that apply",
+        choices = list("Choice 1" = 1, "Choice 2" = 2, "Choice 3" = 3),
+        selected = 1
+      )
+    ),
+    card(
+      card_header("Date input"),
+      dateInput("date", "Select date", value = "2014-01-01")
+    ),
+    card(
+      card_header("Date range input"),
+      dateRangeInput("dates", "Select dates")
+    ),
+    card(
+      card_header("File input"),
+      fileInput("file", label = "Enter the file")
+    ),
+    card(
+      card_header("Help text"),
+      helpText(
+        "Note: help text isn't a true widget,",
+        "but it provides an easy way to add text to",
+        "accompany other widgets."
+      )
+    ),
+    card(
+      card_header("Numeric input"),
+      numericInput("num", "Input number", value = 1)
+    ),
+    card(
+      card_header("Radio buttons"),
+      radioButtons(
+        "radio",
+        "Select option",
+        choices = list("Choice 1" = 1, "Choice 2" = 2, "Choice 3" = 3),
+        selected = 1
+      )
+    ),
+    card(
+      card_header("Select box"),
+      selectInput(
+        "select",
+        "Select option",
+        choices = list("Choice 1" = 1, "Choice 2" = 2, "Choice 3" = 3),
+        selected = 1
+      )
+    ),
+    card(
+      card_header("Sliders"),
+      sliderInput(
+        "slider1",
+        "Set value",
+        min = 0,
+        max = 100,
+        value = 50
+      )
+    ),
+    card(
+      card_header("Text input"),
+      textInput("text", label = "Enter the Text", value = "Enter text...")
+    )
+    
+    
+  )
+)
+
+server<- function(input,output){
+  
+}
+
+shinyApp(ui=ui,server = server)
