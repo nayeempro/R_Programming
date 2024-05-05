@@ -1,0 +1,177 @@
+library(shiny)
+library(shiny)
+library(bslib)
+library(bsicons)
+
+# Define UI ----
+ui <- page_sidebar(
+  title = "This my First App on R Shiny",
+  sidebar = sidebar("sidebar_1", position = "right"),
+  "Ekhane main Content"
+)
+
+#Another UI
+ui_2 <- page_fluid(
+  layout_sidebar("Sidebar__"),
+  "Main Content Here"
+)
+#Card 
+ui_3 <- page_sidebar(
+  title = "title panel",
+  sidebar = sidebar("Sidebar"),
+  "Main Content above card content",
+  card(
+    "Card Content Here"
+  )
+)
+
+ui_4 <- page_sidebar(
+  title = "title panel",
+  sidebar = sidebar("Sidebar"),
+  card(
+    card_header("Card header"),
+    "Card body"
+  )
+)
+
+#Value Box
+ui_5 <- page_sidebar(
+  title = "title panel",
+  sidebar = sidebar("Sidebar"),
+  card(
+    card_header("Card header"),
+    "Card body"
+  ),
+  value_box(
+    title = "Value box here",
+    value = 1500
+  )
+)
+#theme and showcase
+install.packages("bsicons")
+library(bsicons)
+
+ui_6 <- page_sidebar(
+  title = "title panel",
+  sidebar = sidebar("Sidebar"),
+  value_box(
+    title = "Value box",
+    value = 100,
+    #showcase = bsicons::bs_icon("bar-chart"),
+    showcase = bsicons::bs_icon("alarm"),
+    theme = "teal"
+  ),
+  card("First Card"),
+  card("Another card")
+)
+
+#Use multiple value box
+ui_7 <- page_sidebar(
+  title = "title panel of Shiny app",
+  sidebar = sidebar("Sidebar"),
+  vbs <- list(
+    value_box(
+      title = "1st value",
+      value = "123",
+      showcase = bs_icon("bar-chart"),
+      theme = "purple",
+      p("The 1st detail")
+    ),
+    value_box(
+      title = "2nd value",
+      value = "456",
+      showcase = bs_icon("graph-up"),
+      theme = "teal",
+      p("The 2nd detail"),
+      p("The 3rd detail")
+    ),
+    value_box(
+      title = "3rd value",
+      value = "789",
+      showcase = bs_icon("pie-chart"),
+      theme = "pink",
+      p("The 4th detail"),
+      p("The 5th detail"),
+      p("The 6th detail")
+    )
+    
+    
+  )
+)
+
+
+
+ui_8<- page_sidebar(
+  title = "title panel of Shiny app",
+  sidebar = sidebar("Sidebar"),
+  vbs <- list(
+    value_box(
+      title = "1st value",
+      value = "123",
+      showcase = bs_icon("bar-chart"),
+      theme = "purple",
+      p("The 1st detail")
+    ),
+    value_box(
+      title = "2nd value",
+      value = "456",
+      showcase = bs_icon("graph-up"),
+      theme = "teal",
+      p("The 2nd detail"),
+      p("The 3rd detail")
+    ),
+    value_box(
+      title = "3rd value",
+      value = "789",
+      showcase = bs_icon("pie-chart"),
+      theme = "pink",
+      p("The 4th detail"),
+      p("The 5th detail"),
+      p("The 6th detail")
+    ),
+    
+    layout_column_wrap(
+      width = "300px",
+      !!!vbs
+    )
+  )
+)
+
+
+
+#Shiny app details 
+
+
+# Define UI
+ui_9 <- page_sidebar(
+  title = "My Shiny App",
+  sidebar = sidebar(
+    "Shiny is available on CRAN, so you can install it in the usual way from your R console:",
+    code('install.packages("shiny")'),
+  ),
+  card(
+    card_header("Introducing Shiny"),
+    "Shiny is a package from Posit that makes it incredibly easy to build interactive web applications with R.
+    For an introduction and live examples, visit the Shiny homepage (https://shiny.posit.co).",
+    card_image("E:/Data_analysis_bootcamp/R_programming/Class-R12/sb.jpeg", height = "300px"),
+    card_footer("Shiny is a product of Posit.")
+  )
+)
+
+# Define server logic ----
+server <- function(input, output) {
+  
+}
+
+
+
+# Run the app ----
+shinyApp(ui = ui, server = server)
+shinyApp(ui = ui_2, server = server)
+shinyApp(ui = ui_3, server = server)
+shinyApp(ui = ui_4, server = server)
+shinyApp(ui = ui_5, server = server)
+shinyApp(ui = ui_6, server = server)
+shinyApp(ui = ui_7, server = server)
+shinyApp(ui = ui_8, server = server)
+shinyApp(ui = ui_9, server = server)
