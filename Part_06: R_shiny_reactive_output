@@ -1,0 +1,99 @@
+# You can create reactive output with a two step process.
+# 
+# Add an R object to your user interface.
+# Tell Shiny how to build the object in the server function.
+# The object will be reactive if the code that builds it calls
+# a widget value.
+##=================Shniy Reactive 1 ===========
+library(shiny)
+library(bslib)
+library(bsicons)
+library(stringr) #paste funtion
+
+ui <- page_sidebar(
+  title = "censusVis",
+  sidebar = sidebar(
+    helpText(
+      "Create demographic maps with information from the 2010 US Census."
+    ),
+    selectInput(
+      "var",
+      label = "Choose a variable to display",
+      choices = 
+        c("Percent White",
+          "Percent Black",
+          "Percent Hispanic",
+          "Percent Asian"),
+      selected = "Percent White"
+    ),
+    sliderInput(
+      "range",
+      label = "Range of interest:",
+      min = 0, 
+      max = 100, 
+      value =  c(10,50) #budefault
+    )
+  ),
+  #textOutput("selected_var"),
+  textOutput("selected_range")
+)
+
+server <- function(input, output){
+  
+  # output$selected_var <- renderText({
+  #   paste("You have selected this", input$var)
+  # })
+  
+  output$selected_range <- renderText({
+    paste("You have selected this", input$range[1], "to", input$range[2])
+  })
+}
+
+
+shinyApp(ui = ui, server = server)
+
+
+##=================Shniy Reactive 2 =======
+library(shiny)
+
+ui_2 <- page_sidebar(
+  title = "censusVis",
+  sidebar = sidebar(
+    helpText(
+      "Create demographic maps with information from the 2010 US Census."
+    ),
+    selectInput(
+      "var",
+      label = "Choose a variable to display",
+      choices = c("Percent White",
+                  "Percent Black",
+                  "Percent Hispanic",
+                  "Percent Asian"),
+      selected = "Percent White"
+    ),
+    sliderInput(
+      "range",
+      label = "Range of interest:",
+      min = 0, max = 100, value = c(0, 100)
+    )
+  ),
+  textOutput("selected_var"),
+  textOutput("min_max") 
+)
+
+server_2 <- function(input, output) {
+  
+  output$selected_var <- renderText({
+    paste("You have selected", input$var)
+  })
+  
+  output$min_max <- renderText({
+    paste("You have chosen a range that goes from",
+          input$range[1], "to", input$range[2])
+  })
+  
+}
+
+shinyApp(ui_2, server_2)
+
+
